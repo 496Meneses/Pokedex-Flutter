@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter pub *)",
+      "Bash(flutter analyze *)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(find . -path ./build -prune -o -iname \"SKILL.md\" -print)",
+      "Bash(ls -la .claude)",
+      "Bash(flutter devices *)",
+      "Bash(flutter run *)",
+      "Bash(tee /c/Users/Usuario/AppData/Local/Temp/claude/c--Users-Usuario-Documents-flutter-Proyectos-Proyecto-prueba-pokedex/62345c6c-8bb0-4863-92ea-eb6ec00df42e/scratchpad/flutter_run.log)",
+      "Bash([ -f \"$LOG\" ])",
+      "Read(//c/Users/Usuario/AppData/Local/Temp/claude/c--Users-Usuario-Documents-flutter-Proyectos-Proyecto-prueba-pokedex/62345c6c-8bb0-4863-92ea-eb6ec00df42e/scratchpad/**)",
+      "Bash(break)",
+      "WebFetch(domain:www.notion.so)",
+      "Bash(tee /c/Users/Usuario/AppData/Local/Temp/claude/c--Users-Usuario-Documents-flutter-Proyectos-Proyecto-prueba-pokedex/62345c6c-8bb0-4863-92ea-eb6ec00df42e/scratchpad/flutter_run2.log)",
+      "Bash(tee /c/Users/Usuario/AppData/Local/Temp/claude/c--Users-Usuario-Documents-flutter-Proyectos-Proyecto-prueba-pokedex/62345c6c-8bb0-4863-92ea-eb6ec00df42e/scratchpad/flutter_run3.log)",
+      "Bash(SCRATCH=\"/c/Users/Usuario/AppData/Local/Temp/claude/c--Users-Usuario-Documents-flutter-Proyectos-Proyecto-prueba-pokedex/62345c6c-8bb0-4863-92ea-eb6ec00df42e/scratchpad\"; ADB=\"/c/Users/Usuario/AppData/Local/Android/Sdk/platform-tools/adb.exe\"; sleep 3; \"$ADB\" -s emulator-5554 exec-out screencap -p > \"$SCRATCH/pokedex_screenshot2.png\"; ls -la \"$SCRATCH/pokedex_screenshot2.png\")",
+      "Bash(tee /c/Users/Usuario/AppData/Local/Temp/claude/c--Users-Usuario-Documents-flutter-Proyectos-Proyecto-prueba-pokedex/62345c6c-8bb0-4863-92ea-eb6ec00df42e/scratchpad/flutter_run4.log)",
+      "Bash(git config *)",
+      "Bash(git init *)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\Usuario\\AppData\\Local\\Temp\\claude\\c--Users-Usuario-Documents-flutter-Proyectos-Proyecto-prueba-pokedex\\62345c6c-8bb0-4863-92ea-eb6ec00df42e\\scratchpad"
+    ]
+  }
+}
