@@ -1,65 +1,37 @@
 import 'package:flutter/material.dart';
 
+import 'models/pokemon.dart';
+import 'widgets/pokemon_card.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(const MainApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  static const List<Pokemon> pokemones = [
+    Pokemon(id: '1', name: 'bulbasaur', displayName: 'Bulbasaur', types: ['grass', 'poison']),
+    Pokemon(id: '4', name: 'charmander', displayName: 'Charmander', types: ['fire']),
+    Pokemon(id: '7', name: 'squirtle', displayName: 'Squirtle', types: ['water']),
+    Pokemon(id: '25', name: 'pikachu', displayName: 'Pikachu', types: ['electric']),
+    Pokemon(id: '39', name: 'jigglypuff', displayName: 'Jigglypuff', types: ['normal', 'fairy']),
+    Pokemon(id: '74', name: 'geodude', displayName: 'Geodude', types: ['rock', 'ground']),
+    Pokemon(id: '92', name: 'gastly', displayName: 'Gastly', types: ['ghost', 'poison']),
+    Pokemon(id: '66', name: 'machop', displayName: 'Machop', types: ['fighting']),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      home: Scaffold(
+        appBar: AppBar(title: const Text('PokeDex')),
+        body: ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: pokemones.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 16),
+          itemBuilder: (context, index) => PokemonCard(pokemon: pokemones[index]),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
