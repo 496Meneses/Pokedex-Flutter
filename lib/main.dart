@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'models/pokemon.dart';
+import 'theme/app_theme.dart';
 import 'widgets/pokemon_card.dart';
 
 void main() {
@@ -24,6 +25,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.system,
       home: Scaffold(
         appBar: AppBar(title: const Text('PokeDex')),
         body: ListView.separated(
