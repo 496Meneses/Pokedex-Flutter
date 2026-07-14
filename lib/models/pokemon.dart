@@ -3,12 +3,18 @@ class Pokemon {
   final String name;
   final String displayName;
   final List<String> types;
+  final int hp;
+  final int attack;
+  final int defense;
 
   const Pokemon({
     required this.id,
     required this.name,
     required this.displayName,
     required this.types,
+    required this.hp,
+    required this.attack,
+    required this.defense,
   });
 
   String get imageUrl =>
