@@ -15,25 +15,98 @@ final List<Pokemon> allPokemons = [
   Pokemon(id: '66', name: 'machop', displayName: 'Machop', types: const ['fighting'], hp: 70, attack: 80, defense: 50),
 ];
 
-class HomeScreen extends StatelessWidget {
+const String _todosLosTipos = 'Todos';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String _searchQuery = '';
+  String _selectedType = _todosLosTipos;
+
+  @override
   Widget build(BuildContext context) {
+    final availableTypes = <String>{
+      _todosLosTipos,
+      ...allPokemons.expand((p) => p.types),
+    }.toList();
+
+    final filtered = allPokemons.where((pokemon) {
+      final matchesName =
+          pokemon.displayName.toLowerCase().contains(_searchQuery.toLowerCase());
+      final matchesType =
+          _selectedType == _todosLosTipos || pokemon.types.contains(_selectedType);
+      return matchesName && matchesType;
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Pokédex')),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: allPokemons.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 16),
-        itemBuilder: (context, index) {
-          final pokemon = allPokemons[index];
-          return GestureDetector(
-            onTap: () => context.push('/pokemon/${pokemon.id}', extra: pokemon),
-            child: PokemonCard(pokemon: pokemon),
-          );
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: TextField(
+              decoration: const InputDecoration(
+                hintText: 'Busca un Pokémon...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (value) => setState(() => _searchQuery = value),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: DropdownButton<String>(
+                value: _selectedType,
+                items: availableTypes
+                    .map((type) => DropdownMenuItem(
+                          value: type,
+                          child: Text(_capitalize(type)),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() => _selectedType = value);
+                  }
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: filtered.isEmpty
+                ? const Center(child: Text('Ningún Pokémon coincide'))
+                : GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: filtered.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 0.85,
+                    ),
+                    itemBuilder: (context, index) {
+                      final pokemon = filtered[index];
+                      return GestureDetector(
+                        onTap: () => context
+                            .push('/pokemon/${pokemon.id}', extra: pokemon),
+                        child: PokemonCard(pokemon: pokemon),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
     );
   }
+
+  String _capitalize(String value) =>
+      value.isEmpty ? value : '${value[0].toUpperCase()}${value.substring(1)}';
 }
