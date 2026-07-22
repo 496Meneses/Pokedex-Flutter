@@ -6,6 +6,10 @@ class Pokemon {
   final int hp;
   final int attack;
   final int defense;
+  final int specialAttack;
+  final int specialDefense;
+  final int speed;
+  final List<String> abilities;
   final String imageUrl;
 
   const Pokemon({
@@ -16,6 +20,10 @@ class Pokemon {
     required this.hp,
     required this.attack,
     required this.defense,
+    required this.specialAttack,
+    required this.specialDefense,
+    required this.speed,
+    required this.abilities,
     required this.imageUrl,
   });
 
@@ -32,6 +40,10 @@ class Pokemon {
         entry['stat']['name'] as String: entry['base_stat'] as int,
     };
 
+    final abilities = (json['abilities'] as List)
+        .map((entry) => entry['ability']['name'] as String)
+        .toList();
+
     final sprites = json['sprites'] as Map<String, dynamic>?;
     final officialArtwork =
         (sprites?['other'] as Map<String, dynamic>?)?['official-artwork']
@@ -47,6 +59,10 @@ class Pokemon {
       hp: baseStats['hp'] ?? 0,
       attack: baseStats['attack'] ?? 0,
       defense: baseStats['defense'] ?? 0,
+      specialAttack: baseStats['special-attack'] ?? 0,
+      specialDefense: baseStats['special-defense'] ?? 0,
+      speed: baseStats['speed'] ?? 0,
+      abilities: abilities,
       imageUrl: imageUrl,
     );
   }
