@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/pokemon.dart';
 import '../widgets/pokemon_card.dart';
@@ -27,6 +28,42 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String _searchQuery = '';
   String _selectedType = _todosLosTipos;
+  Set<String> _favoriteIds = {};
+  late final SharedPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavorites();
+  }
+
+  Future<void> _loadFavorites() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _favoriteIds = (_prefs.getStringList('favoritos') ?? []).toSet();
+    });
+  }
+
+  Future<void> _toggleFavorite(Pokemon pokemon) async {
+    final estabaEnFavoritos = _favoriteIds.contains(pokemon.id);
+    setState(() {
+      if (estabaEnFavoritos) {
+        _favoriteIds.remove(pokemon.id);
+      } else {
+        _favoriteIds.add(pokemon.id);
+      }
+    });
+    await _prefs.setStringList('favoritos', _favoriteIds.toList());
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(estabaEnFavoritos
+            ? '${pokemon.displayName} quitado de favoritos'
+            : '${pokemon.displayName} añadido a favoritos'),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +134,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       return GestureDetector(
                         onTap: () => context
                             .push('/pokemon/${pokemon.id}', extra: pokemon),
-                        child: PokemonCard(pokemon: pokemon),
+                        child: PokemonCard(
+                          pokemon: pokemon,
+                          esFavorito: _favoriteIds.contains(pokemon.id),
+                          onFavoritoTap: () => _toggleFavorite(pokemon),
+                        ),
                       );
                     },
                   ),
